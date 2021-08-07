@@ -1,7 +1,7 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 
-export default function FieldComponent({ label }) {
+export default function FieldComponent({ label}) {
   return (
     <div
       style={{
@@ -14,12 +14,12 @@ export default function FieldComponent({ label }) {
     >
       <TextField
         label={label.new}
-        className="outlined-size-small"
+        id="outlined-size-small"
         value={label.text}
         variant="outlined"
         size="small"
-        onChange={(e) => {
-          label.handleText(e.target.value);
+        onChange={(event) => {
+          label.handleText(event.target.value)
         }}
       />
     </div>
