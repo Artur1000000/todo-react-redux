@@ -99,8 +99,6 @@ function App({ state, onAddElement }) {
       <MenuComponent
         open={open}
         handleDrawer={handleDrawer}
-        state={state}
-        markers={markers}
         onAddElement={onAddElement}
       />
       <main

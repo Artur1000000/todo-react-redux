@@ -5,18 +5,14 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import FieldComponent from "./FieldComponent";
-import Button from "@material-ui/core/Button";
 import { Grid } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
+import FormComponent from "./FormComponent";
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    position: "relative",
-  },
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
@@ -37,8 +33,6 @@ const useStyles = makeStyles((theme) => ({
 export default function MenuComponent({
   open,
   handleDrawer,
-  state,
-  markers,
   onAddElement,
 }) {
   const classes = useStyles();
@@ -48,24 +42,6 @@ export default function MenuComponent({
   const [berry, setBerry] = useState("");
 
   const titleMenu = "add to the list";
-
-  function handleLabel(prop) {
-    if (prop === "vegetables") {
-      return {
-        new: "vegetable",
-        old: prop,
-        text: vegetable,
-        handleText: setVegetable,
-      };
-    }
-    if (prop === "fruits") {
-      return { new: "fruit", old: prop, text: fruit, handleText: setFruit };
-    }
-    if (prop === "berries") {
-      return { new: "berry", old: prop, text: berry, handleText: setBerry };
-    }
-  }
-
   const sendInReducer = useCallback(() => {
     if (vegetable.length > 0) {
       onAddElement("vegetables", vegetable);
@@ -80,7 +56,6 @@ export default function MenuComponent({
       setBerry("");
     }
   }, [vegetable, fruit, berry, onAddElement]);
-
 
   return (
     <Drawer
@@ -112,38 +87,16 @@ export default function MenuComponent({
         </Typography>
       </Grid>
       <Divider />
-      <form
-        className={classes.root}
-        id="form"
-        noValidate
-        autoComplete="off"
-      >
-        {markers.map((marker, index) => (
-          <FieldComponent
-            key={index}
-            label={handleLabel(state[marker].title)}
-          />
-        ))}
-        <Divider />
-        <div style={{ width: "80%", margin: "5px auto" }}>
-          <Grid
-            container
-            direction="row"
-            justifyContent="flex-end"
-            alignItems="center"
-          >
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              style={{ margin: "10px 0px" }}
-              onClick={sendInReducer}
-            >
-              add
-            </Button>
-          </Grid>
-        </div>
-      </form>
+
+      <FormComponent sendInReducer={sendInReducer}>
+        <FieldComponent
+          value={vegetable}
+          change={setVegetable}
+          label={"vegetable"}
+        />
+        <FieldComponent value={fruit} change={setFruit} label={"fruit"} />
+        <FieldComponent value={berry} change={setBerry} label={"berry"} />
+      </FormComponent>
     </Drawer>
   );
 }
